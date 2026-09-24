@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecondChance — Career Re-Entry & Workforce Reskilling Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        renewal: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                            950: '#022c22'
+                        },
+                        amberRise: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309'
+                        },
+                        slateDark: {
+                            800: '#1e293b',
+                            850: '#131d2e',
+                            900: '#0b1120',
+                            950: '#050811'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Outfit (modern, approachable, dignified) & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <style>
+        /* Smooth, non-intrusive scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050811;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+
+        .glass-panel {
+            background: rgba(11, 17, 32, 0.75);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glow-emerald {
+            box-shadow: 0 0 25px -4px rgba(16, 185, 129, 0.25);
+        }
+
+        .kanban-column {
+            min-height: 480px;
+        }
+        
+        .pulse-beacon {
+            animation: pulse-ring 2.2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+        }
+        @keyframes pulse-ring {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.08); }
+        }
+    </style>
+</head>
+<body class="bg-slateDark-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-renewal-500 selection:text-slate-950">
+
+    <!-- Top Global App Header -->
+    <header class="border-b border-slate-800/80 bg-slateDark-900/90 backdrop-blur-md sticky top-0 z-40 px-4 lg:px-8 py-3">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            
+            <!-- Brand Logo & Slogan -->
+            <div class="flex items-center gap-3.5">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-renewal-600 via-emerald-500 to-amberRise-400 flex items-center justify-center text-slate-950 text-xl font-black shadow-lg shadow-renewal-500/20">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold text-white flex items-center gap-2">
+                        SecondChance
+                        <span class="text-[10px] font-mono font-bold bg-renewal-500/10 text-renewal-400 px-2.5 py-0.5 rounded-full border border-renewal-500/20">Re-Entry OS</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">Holistic Career Return & Upskilling Ecosystem</p>
+                </div>
+            </div>
+
+            <!-- Candidate Transition Badge & Readiness Score -->
+            <div class="flex items-center gap-3 bg-slateDark-850 border border-slate-800 rounded-xl px-3.5 py-1.5 text-xs">
+                <div class="w-2.5 h-2.5 rounded-full bg-renewal-400 animate-pulse"></div>
+                <div class="flex flex-col">
+                    <span class="text-[10px] text-slate-400 uppercase tracking-wider font-mono">Transition Profile</span>
+                    <span class="font-bold text-slate-200" id="headerProfileName">Maya Lin • 3.5-Yr Caregiving Gap</span>
+                </div>
+                <div class="border-l border-slate-700 pl-3 flex items-center gap-1.5 font-mono">
+                    <span class="text-slate-400 text-[11px]">Readiness:</span>
+                    <span class="px-2 py-0.5 rounded bg-renewal-950 text-renewal-300 font-bold border border-renewal-800/80" id="headerReadinessPct">84%</span>
+                </div>
+            </div>
+
+            <!-- Top Actions: AI Gap Reframer Modal & Quick Support -->
+            <div class="flex items-center gap-2.5">
+                <button onclick="openGapReframerModal()" class="px-3.5 py-2 bg-gradient-to-r from-amberRise-500 to-amber-600 hover:from-amberRise-600 hover:to-amber-700 text-slate-950 font-bold rounded-xl text-xs shadow-md transition flex items-center gap-2" title="Transform your career break into market-demanded leadership assets">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>AI Career Gap Reframer</span>
+                </button>
+                <button onclick="openMicroLoanModal()" class="px-3 py-2 bg-slateDark-800 hover:bg-slate-800 text-renewal-300 border border-renewal-500/30 font-semibold rounded-xl text-xs transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    <span class="hidden sm:inline">Relief Micro-Loan</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Main Dashboard Workspace -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-3 lg:p-6 space-y-6">
+
+        <!-- Quick Horizon Metrics Radar Banner -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-3.5">
+            <div class="glass-panel p-4 rounded-2xl flex flex-col justify-between hover:border-renewal-500/40 transition">
+                <div class="flex items-center justify-between text-xs text-slate-400">
+                    <span>Matched Returnships</span>
+                    <i class="fa-solid fa-briefcase text-renewal-400"></i>
+                </div>
+                <div class="mt-2 flex items-baseline gap-2">
+                    <span class="text-2xl font-bold font-mono text-slate-100" id="statMatchedJobs">18</span>
+                    <span class="text-xs text-renewal-400 font-semibold flex items-center gap-1">
+                        <i class="fa-solid fa-arrow-trend-up"></i> +4 new
+                    </span>
+                </div>
+                <span class="text-[11px] text-slate-400 mt-1">100% gap-friendly verified</span>
+            </div>
+
+            <div class="glass-panel p-4 rounded-2xl flex flex-col justify-between hover:border-amberRise-400/40 transition">
+                <div class="flex items-center justify-between text-xs text-slate-400">
+                    <span>Active Pipeline</span>
+                    <i class="fa-solid fa-bars-progress text-amberRise-400"></i>
+                </div>
+                <div class="mt-2 flex items-baseline gap-2">
+                    <span class="text-2xl font-bold font-mono text-slate-100" id="statActiveApps">5</span>
+                    <span class="text-xs text-slate-400 font-mono">Applications</span>
+                </div>
+                <span class="text-[11px] text-amberRise-400 font-semibold">1 Interview this Thursday</span>
+            </div>
+
+            <div class="glass-panel p-4 rounded-2xl flex flex-col justify-between hover:border-cyan-400/40 transition">
+                <div class="flex items-center justify-between text-xs text-slate-400">
+                    <span>Skills Bridge</span>
+                    <i class="fa-solid fa-graduation-cap text-cyan-400"></i>
+                </div>
+                <div class="mt-2 flex items-baseline gap-2">
+                    <span class="text-2xl font-bold font-mono text-slate-100" id="statSkillsProgress">3 / 4</span>
+                    <span class="text-xs text-cyan-400 font-semibold">Courses Done</span>
+                </div>
+                <span class="text-[11px] text-slate-400">1 certificate ready to export</span>
+            </div>
+
+            <div class="glass-panel p-4 rounded-2xl flex flex-col justify-between hover:border-emerald-400/40 transition">
+                <div class="flex items-center justify-between text-xs text-slate-400">
+                    <span>Re-Entry Micro-Fund</span>
+                    <i class="fa-solid fa-wallet text-emerald-400"></i>
+                </div>
+                <div class="mt-2 flex items-baseline gap-2">
+                    <span class="text-2xl font-bold font-mono text-slate-100" id="statMicroLoanBalance">$2,050</span>
+                    <span class="text-xs text-slate-400 font-mono">Available</span>
+                </div>
+                <span class="text-[11px] text-emerald-400 font-semibold">0% APR Career Transition Line</span>
+            </div>
+        </section>
+
+        <!-- Primary Navigation Tabs -->
+        <section class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+            <div class="inline-flex rounded-xl bg-slateDark-900 p-1 border border-slate-800 text-xs font-semibold" role="tablist">
+                <button onclick="switchTab('jobs')" id="tabBtnJobs" class="px-3.5 py-2 rounded-lg bg-renewal-600 text-slate-950 font-bold transition flex items-center gap-2 shadow">
+                    <i class="fa-solid fa-building-user"></i>
+                    <span>AI Returnships & Roles</span>
+                </button>
+                <button onclick="switchTab('tracker')" id="tabBtnTracker" class="px-3.5 py-2 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <span>Application Tracker</span>
+                </button>
+                <button onclick="switchTab('courses')" id="tabBtnCourses" class="px-3.5 py-2 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Tailored Upskilling</span>
+                </button>
+                <button onclick="switchTab('mentorship')" id="tabBtnMentorship" class="px-3.5 py-2 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-users-rays"></i>
+                    <span>Mentors & Circles</span>
+                </button>
+                <button onclick="switchTab('loans')" id="tabBtnLoans" class="px-3.5 py-2 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-coins"></i>
+                    <span>Micro-Loans & Grants</span>
+                </button>
+            </div>
+
+            <div class="flex items-center gap-2 text-xs">
+                <span class="text-slate-400 font-mono"><i class="fa-solid fa-shield-halved text-renewal-400 mr-1"></i>Guaranteed Gap-Blind Evaluation</span>
+            </div>
+        </section>
+
+        <!-- TAB 1: AI Returnship & Job Matching Engine -->
+        <section id="tabContentJobs" class="space-y-4">
+            
+            <!-- Filter & Search Bar -->
+            <div class="glass-panel p-3.5 rounded-2xl flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-2 flex-1 min-w-[280px]">
+                    <div class="w-8 h-8 rounded-xl bg-renewal-500/10 text-renewal-400 flex items-center justify-center text-xs flex-shrink-0">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <input type="text" id="jobSearchInput" oninput="filterJobsList()" placeholder="Search gap-friendly returnships, tech, operations, project management..." class="w-full bg-transparent text-xs text-slate-200 placeholder-slate-500 focus:outline-none">
+                </div>
+
+                <div class="flex items-center flex-wrap gap-2 text-xs">
+                    <select id="filterTypeSelect" onchange="filterJobsList()" class="bg-slateDark-850 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-renewal-500">
+                        <option value="all">All Pathways (Returnships + Direct)</option>
+                        <option value="Returnship" selected>🌱 Dedicated Returnships</option>
+                        <option value="Direct Hire">⚡ Full-Time Direct Hire</option>
+                        <option value="Apprenticeship">🛠️ Paid Apprenticeship</option>
+                    </select>
+
+                    <select id="filterWorkplaceSelect" onchange="filterJobsList()" class="bg-slateDark-850 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-renewal-500">
+                        <option value="all">Any Work Model</option>
+                        <option value="Remote">🏡 Remote</option>
+                        <option value="Hybrid">🏢 Hybrid</option>
+                    </select>
+
+                    <button onclick="triggerAiMatchRerank()" id="btnRerankMatches" class="px-3 py-1.5 bg-renewal-500/10 hover:bg-renewal-500/20 text-renewal-300 border border-renewal-500/30 rounded-xl text-xs font-semibold transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-bolt text-amberRise-400"></i>
+                        <span>AI Re-Rank by My Skills</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Job Cards Grid Container -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="jobsGridContainer">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </section>
+
+        <!-- TAB 2: Interactive Application Tracker (Kanban Pipeline) -->
+        <section id="tabContentTracker" class="space-y-4 hidden">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-2.5">
+                <div>
+                    <h3 class="text-sm font-bold text-slate-100 flex items-center gap-2">
+                        <i class="fa-solid fa-table-columns text-renewal-400"></i>
+                        Career Re-Entry Pipeline Tracker
+                    </h3>
+                    <p class="text-xs text-slate-400">Drag or update applications across stages. Document interview prep and mentor endorsements.</p>
+                </div>
+                <button onclick="openNewApplicationModal()" class="px-3.5 py-1.5 bg-renewal-600 hover:bg-renewal-500 text-slate-950 font-bold rounded-xl text-xs transition flex items-center gap-1.5 shadow">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Log New Application</span>
+                </button>
+            </div>
+
+            <!-- Kanban Columns Container -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Column 1: Saved & Reviewing -->
+                <div class="glass-panel p-3.5 rounded-2xl flex flex-col space-y-3 kanban-column">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
+                            <h4 class="font-bold text-xs text-slate-300 uppercase tracking-wider">Bookmarked</h4>
+                        </div>
+                        <span id="colCountSaved" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800 text-slate-300">0</span>
+                    </div>
+                    <div id="kanbanColSaved" class="space-y-2.5 flex-1 overflow-y-auto pr-1"></div>
+                </div>
+
+                <!-- Column 2: Applied & Under Review -->
+                <div class="glass-panel p-3.5 rounded-2xl flex flex-col space-y-3 kanban-column border-t-2 border-t-amberRise-500">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-amberRise-400"></span>
+                            <h4 class="font-bold text-xs text-amberRise-300 uppercase tracking-wider">Applied</h4>
+                        </div>
+                        <span id="colCountApplied" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amberRise-950 text-amberRise-400 border border-amberRise-800/60">0</span>
+                    </div>
+                    <div id="kanbanColApplied" class="space-y-2.5 flex-1 overflow-y-auto pr-1"></div>
+                </div>
+
+                <!-- Column 3: Interviewing / Technical Review -->
+                <div class="glass-panel p-3.5 rounded-2xl flex flex-col space-y-3 kanban-column border-t-2 border-t-cyan-500">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                            <h4 class="font-bold text-xs text-cyan-300 uppercase tracking-wider">Interviewing</h4>
+                        </div>
+                        <span id="colCountInterviewing" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800/60">0</span>
+                    </div>
+                    <div id="kanbanColInterviewing" class="space-y-2.5 flex-1 overflow-y-auto pr-1"></div>
+                </div>
+
+                <!-- Column 4: Offers & Accepted -->
+                <div class="glass-panel p-3.5 rounded-2xl flex flex-col space-y-3 kanban-column border-t-2 border-t-renewal-500">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-renewal-400"></span>
+                            <h4 class="font-bold text-xs text-renewal-300 uppercase tracking-wider">Offers & Celebrations</h4>
+                        </div>
+                        <span id="colCountOffers" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-renewal-950 text-renewal-400 border border-renewal-800/60">0</span>
+                    </div>
+                    <div id="kanbanColOffers" class="space-y-2.5 flex-1 overflow-y-auto pr-1"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: Tailored Upskilling & Bridge Micro-Credentials -->
+        <section id="tabContentCourses" class="space-y-4 hidden">
+            <div class="glass-panel p-5 rounded-2xl space-y-4 border-t-2 border-t-cyan-500">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-graduation-cap text-cyan-400"></i>
+                            Career Gap Bridge Programs (Fast-Track 2026 Micro-Credentials)
+                        </h3>
+                        <p class="text-xs text-slate-400">Targeted modules designed to quickly update your toolset (AI tools, Agile, modern software) in 2 to 4 weeks.</p>
+                    </div>
+                    <span class="text-xs font-mono px-2.5 py-1 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
+                        Sponsored Tuition Available
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="coursesGridContainer">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: Mentorship Connections & Peer Support Circles -->
+        <section id="tabContentMentorship" class="space-y-4 hidden">
+            <div class="glass-panel p-5 rounded-2xl space-y-4 border-t-2 border-t-amberRise-500">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-handshake-angle text-amberRise-400"></i>
+                            Returnee Mentors & Executive Champions
+                        </h3>
+                        <p class="text-xs text-slate-400">Book 1-on-1 coffee chats and mock interviews with professionals who took multi-year breaks themselves.</p>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs">
+                        <button onclick="requestMentorMatch()" class="px-3 py-1.5 bg-amberRise-500 hover:bg-amberRise-600 text-slate-950 font-bold rounded-xl text-xs transition">
+                            Request AI Mentor Match
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="mentorsGridContainer">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: Micro-Loan Facilities & Emergency Transition Funds -->
+        <section id="tabContentLoans" class="space-y-4 hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <!-- Left 7 Cols: Micro-Loan Balance & Active Terms -->
+                <div class="lg:col-span-7 glass-panel p-5 rounded-2xl space-y-4 border-t-2 border-t-emerald-500">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-100 flex items-center gap-2">
+                                <i class="fa-solid fa-hand-holding-dollar text-emerald-400"></i>
+                                Re-Entry Micro-Credit & Equipment Line
+                            </h3>
+                            <p class="text-xs text-slate-400">0% interest transition loans for certification exams, laptops, professional childcare, and commuter passes.</p>
+                        </div>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">
+                            Philanthropic Endowment
+                        </span>
+                    </div>
+
+                    <!-- Visual Credit Card / Fund Metric Card -->
+                    <div class="p-4 rounded-2xl bg-gradient-to-tr from-slateDark-900 to-slateDark-850 border border-emerald-500/30 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-slate-400 font-mono">APPROVED CONTINGENCY FACILITY</span>
+                            <span class="text-xs font-bold text-emerald-400"><i class="fa-solid fa-circle-check mr-1"></i>Pre-Qualified</span>
+                        </div>
+                        <div class="flex items-baseline justify-between">
+                            <div>
+                                <span class="text-3xl font-bold font-mono text-white">$2,050.00</span>
+                                <span class="text-xs text-slate-400 block mt-0.5">Remaining available balance ($2,500 total limit)</span>
+                            </div>
+                            <button onclick="openMicroLoanModal()" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-xs transition shadow flex items-center gap-1.5">
+                                <i class="fa-solid fa-arrow-down"></i>
+                                <span>Draw Funds ($50-$500)</span>
+                            </button>
+                        </div>
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                            <div class="bg-emerald-400 h-full w-[18%]"></div>
+                        </div>
+                        <div class="flex justify-between text-[10px] font-mono text-slate-400">
+                            <span>Utilized: $450 (Certification voucher + laptop repair)</span>
+                            <span>Repayment: 0% APR, Starts 90 days after employment</span>
+                        </div>
+                    </div>
+
+                    <!-- Past Transactions & Disbursal Ledger -->
+                    <div class="space-y-2">
+                        <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Disbursement Ledger</h4>
+                        <div class="space-y-2" id="loanLedgerContainer">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right 5 Cols: Micro-Loan Impact Calculator & Grant Eligibility -->
+                <div class="lg:col-span-5 glass-panel p-5 rounded-2xl space-y-4 border border-slate-800">
+                    <div class="border-b border-slate-800 pb-2.5">
+                        <h4 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-calculator text-amberRise-400"></i>
+                            Transition Stipend & Childcare Calculator
+                        </h4>
+                        <p class="text-[11px] text-slate-400 mt-0.5">Calculate how much buffer you need before your first returnship paycheck arrives.</p>
+                    </div>
+
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <label class="block text-slate-300 mb-1 font-semibold">Certification & Exam Fees</label>
+                            <input type="number" id="calcCert" value="250" oninput="calculateStipend()" class="w-full bg-slateDark-950 border border-slate-700 rounded-xl p-2.5 text-slate-100 font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-slate-300 mb-1 font-semibold">Childcare or Elder Care Support (1st Month)</label>
+                            <input type="number" id="calcCare" value="400" oninput="calculateStipend()" class="w-full bg-slateDark-950 border border-slate-700 rounded-xl p-2.5 text-slate-100 font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-slate-300 mb-1 font-semibold">Commuter Transit or Home Office Setup</label>
+                            <input type="number" id="calcTransit" value="150" oninput="calculateStipend()" class="w-full bg-slateDark-950 border border-slate-700 rounded-xl p-2.5 text-slate-100 font-mono">
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-slateDark-950 border border-slate-800 space-y-1.5">
+                            <div class="flex justify-between text-slate-300">
+                                <span>Estimated Runway Needed:</span>
+                                <span class="font-bold font-mono text-amberRise-400 text-sm" id="calcTotalNeeded">$800.00</span>
+                            </div>
+                            <div class="flex justify-between text-slate-400 text-[11px]">
+                                <span>Forgivable Grant Match (50%):</span>
+                                <span class="font-bold font-mono text-emerald-400" id="calcGrantMatch">-$400.00</span>
+                            </div>
+                            <div class="flex justify-between border-t border-slate-800 pt-1.5 text-slate-200 font-bold">
+                                <span>Net 0% Micro-Credit:</span>
+                                <span class="font-bold font-mono text-white" id="calcNetCredit">$400.00</span>
+                            </div>
+                        </div>
+
+                        <button onclick="applyCalculatedPackage()" class="w-full py-2.5 bg-gradient-to-r from-renewal-500 to-emerald-400 hover:from-renewal-600 hover:to-emerald-500 text-slate-950 font-bold rounded-xl text-xs transition shadow flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Submit Zero-Risk Stipend Request</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal 1: AI Career Gap Transmutation Engine (Powered by Gemini) -->
+    <div id="gapReframerModal" class="fixed inset-0 z-50 bg-slateDark-950/85 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="glass-panel bg-slateDark-900 border border-amberRise-400/40 rounded-2xl max-w-2xl w-full p-5 sm:p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-amberRise-500/20 text-amberRise-400 flex items-center justify-center text-base">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm sm:text-base">Phoenix AI — Career Gap Transmutation Engine</h4>
+                        <p class="text-xs text-slate-400">Reframe your career break into market-demanded leadership, crisis management, and strategic assets</p>
+                    </div>
+                </div>
+                <button onclick="closeGapReframerModal()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Input fields for gap -->
+            <div class="space-y-3 text-xs">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-300 font-semibold mb-1">Reason for Career Break</label>
+                        <select id="gapReasonSelect" class="w-full bg-slateDark-950 border border-slate-700 rounded-xl p-2.5 text-slate-200 focus:border-amberRise-400 focus:outline-none">
+                            <option value="Full-time Caregiving & Managing Elder Health Logistics">Family Caregiving (Elder Care / Sickness Support)</option>
+                            <option value="Parental Leave & Household Resource Operations">Parental Leave & Family Logistics</option>
+                            <option value="Personal Health Recovery & Resilience Rebuilding">Personal Medical Recovery & Wellness</option>
+                            <option value="Career Transition & Independent Self-Directed Study">Strategic Self-Directed Reskilling / Relocation</option>
+                            <option value="Military to Civilian Transition">Military Service to Corporate Transition</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 font-semibold mb-1">Target Re-Entry Domain</label>
+                        <input type="text" id="gapTargetRole" value="Project Management / Technical Operations" class="w-full bg-slateDark-950 border border-slate-700 rounded-xl p-2.5 text-slate-100 focus:border-amberRise-400 focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Real-World Responsibilities Managed During Break</label>
+                    <textarea id="gapRealLifeNotes" rows="3" placeholder="e.g., Managed multi-doctor appointment logistics, negotiated medical bills down 25%, handled $45k household annual budget, self-taught Python & Scrum on weekends..." class="w-full bg-slateDark-950 border border-slate-700 rounded-xl p-3 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amberRise-400"></textarea>
+                </div>
+
+                <button onclick="generateGapTransmutation()" id="btnGenerateGap" class="w-full py-2.5 bg-gradient-to-r from-amberRise-500 to-amber-600 hover:from-amberRise-600 hover:to-amber-700 text-slate-950 font-bold rounded-xl text-xs transition shadow flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>Generate Executive Resume Bullets & Interview Talking Points</span>
+                </button>
+            </div>
+
+            <!-- Output Container -->
+            <div id="gapAiOutputContainer" class="hidden space-y-3 pt-2 border-t border-slate-800 text-xs">
+                <div class="p-3.5 rounded-xl bg-slateDark-950 border border-amberRise-500/30 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-amberRise-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-lines"></i> Executive Resume Bullets (Ready to Paste)
+                        </span>
+                        <button onclick="copyGapBullets()" class="text-[10px] text-slate-400 hover:text-white font-mono flex items-center gap-1">
+                            <i class="fa-solid fa-copy"></i> Copy
+                        </button>
+                    </div>
+                    <ul id="gapResumeBulletsList" class="space-y-1.5 text-slate-300 text-[11px] list-disc list-inside">
+                        <!-- Populated by Gemini -->
+                    </ul>
+                </div>
+
+                <div class="p-3 rounded-xl bg-renewal-950/40 border border-renewal-800/80 space-y-1">
+                    <span class="font-bold text-renewal-300 block"><i class="fa-solid fa-comment-dots mr-1"></i> 30-Second Interview Elevator Answer</span>
+                    <p id="gapInterviewScript" class="text-slate-300 text-[11px] leading-relaxed">
+                        <!-- Populated by Gemini -->
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Micro-Loan Disbursal Request -->
+    <div id="loanDrawModal" class="fixed inset-0 z-50 bg-slateDark-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="glass-panel bg-slateDark-900 border border-emerald-500/40 rounded-2xl max-w-md w-full p-5 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Request Micro-Fund Disbursal</h4>
+                        <p class="text-[10px] text-slate-400">0% Interest Career Bridge Capital</p>
+                    </div>
+                </div>
+                <button onclick="closeMicroLoanModal()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Disbursal Amount ($)</label>
+                    <input type="number" id="loanDrawAmount" value="300" min="50" max="1000" step="50" class="w-full bg-slateDark-950 border border-slate-700 rounded-xl p-2.5 text-slate-100 font-mono text-sm focus:border-emerald-500 focus:outline-none">
+                    <span class="text-[10px] text-slate-500 font-mono mt-1 block">Maximum available right now: $2,050.00</span>
+                </div>
+
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Designated Re-Entry Purpose</label>
+                    <select id="loanDrawPurpose" class="w-full bg-slateDark-950 border border-slate-700 rounded-xl p-2.5 text-slate-200 focus:border-emerald-500 focus:outline-none">
+                        <option value="Professional Certification & Exam Voucher">Professional Certification & Exam Voucher</option>
+                        <option value="Laptop Hardware Repair / Dual Monitors">Laptop Hardware / Home Office Setup</option>
+                        <option value="Emergency Childcare Stipend for Interviews">Childcare / Family Support during Interview Sprints</option>
+                        <option value="Commute Card & Professional Attire">Commuter Transit Pass & Wardrobe</option>
+                    </select>
+                </div>
+
+                <div class="p-3 rounded-xl bg-slateDark-950 border border-slate-800 text-[11px] text-slate-400 space-y-1">
+                    <div class="flex justify-between">
+                        <span>Repayment Term:</span>
+                        <span class="text-slate-200 font-mono">0% Interest (No hidden fees)</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Grace Period:</span>
+                        <span class="text-emerald-400 font-mono">90 Days Post-Hire</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-2 pt-2 border-t border-slate-800">
+                <button onclick="closeMicroLoanModal()" class="px-3.5 py-2 rounded-xl text-slate-400 hover:text-white text-xs">Cancel</button>
+                <button onclick="submitMicroLoanDraw()" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-xs transition">Confirm & Disburse</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Log New Job Application Modal -->
+    <div id="newAppModal" class="fixed inset-0 z-50 bg-slateDark-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="glass-panel bg-slateDark-900 border border-slate-700 rounded-2xl max-w-md w-full p-5 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-plus-circle text-renewal-400"></i>
+                    <span>Log Career Application</span>
+                </h4>
+                <button onclick="closeNewApplicationModal()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Company / Organization *</label>
+                    <input type="text" id="newAppCompany" placeholder="e.g. Stripe, Salesforce, HealthStream" class="w-full bg-slateDark-950 border border-slate-700 rounded-xl p-2.5 text-slate-100 focus:border-renewal-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Role Title *</label>
+                    <input type="text" id="newAppRole" placeholder="e.g. Returnship: Technical Program Coordinator" class="w-full bg-slateDark-950 border border-slate-700 rounded-xl p-2.5 text-slate-100 focus:border-renewal-500 focus:outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-300 font-semibold mb-1">Pathway Type</label>
+                        <select id="newAppType" class="w-full bg-slateDark-950 border border-slate-700 rounded-xl p-2.5 text-slate-200 focus:border-renewal-500 focus:outline-none">
+                            <option value="Returnship">🌱 Returnship</option>
+                            <option value="Direct Hire">⚡ Direct Hire</option>
+                            <option value="Apprenticeship">🛠️ Apprenticeship</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 font-semibold mb-1">Pipeline Stage</label>
+                        <select id="newAppStage" class="w-full bg-slateDark-950 border border-slate-700 rounded-xl p-2.5 text-slate-200 focus:border-renewal-500 focus:outline-none">
+                            <option value="saved">Bookmarked</option>
+                            <option value="applied" selected>Applied</option>
+                            <option value="interviewing">Interviewing</option>
+                            <option value="offers">Offer Received</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Salary / Hourly Compensation (Optional)</label>
+                    <input type="text" id="newAppComp" placeholder="e.g. $42/hr or $95k/yr" class="w-full bg-slateDark-950 border border-slate-700 rounded-xl p-2.5 text-slate-100 focus:border-renewal-500 focus:outline-none">
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-2 pt-2 border-t border-slate-800">
+                <button onclick="closeNewApplicationModal()" class="px-3.5 py-2 rounded-xl text-slate-400 hover:text-white text-xs">Cancel</button>
+                <button onclick="saveNewApplication()" class="px-4 py-2 bg-renewal-500 hover:bg-renewal-400 text-slate-950 font-bold rounded-xl text-xs transition">Add to Pipeline</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Feedback Overlay -->
+    <div id="secondChanceToast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 max-w-sm bg-slateDark-900 border border-slate-700 p-3.5 rounded-xl shadow-2xl flex items-center gap-3">
+        <div id="toastIconContainer" class="w-8 h-8 rounded-lg bg-renewal-500/20 text-renewal-400 flex items-center justify-center text-base flex-shrink-0">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <div class="flex-1 text-xs">
+            <div id="toastTitleText" class="font-bold text-slate-100">Notification</div>
+            <div id="toastDetailText" class="text-slate-400 text-[11px]">Action updated in your re-entry portfolio</div>
+        </div>
+        <button onclick="hideSecondChanceToast()" class="text-slate-500 hover:text-slate-300">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <script>
+        // Web Audio Synthesizer for pleasant affirmative chime feedback
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        function playChime(type = 'success') {
+            try {
+                if (audioContext.state === 'suspended') audioContext.resume();
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+
+                if (type === 'success') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+                    osc.frequency.exponentialRampToValueAtTime(783.99, audioContext.currentTime + 0.16); // G5
+                    gain.gain.setValueAtTime(0.12, audioContext.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.35);
+                    osc.start();
+                    osc.stop(audioContext.currentTime + 0.35);
+                } else if (type === 'coins') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(659.25, audioContext.currentTime); // E5
+                    osc.frequency.setValueAtTime(987.77, audioContext.currentTime + 0.1); // B5
+                    gain.gain.setValueAtTime(0.15, audioContext.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.4);
+                    osc.start();
+                    osc.stop(audioContext.currentTime + 0.4);
+                }
+            } catch (e) {
+                console.warn('Audio feedback fallback:', e);
+            }
+        }
+
+        // Application State & Initial Datasets
+        const state = {
+            activeTab: 'jobs',
+            loanBalance: 2050.00,
+            jobs: [
+                {
+                    id: 'job_1',
+                    company: 'Stripe',
+                    logoBg: 'bg-indigo-600',
+                    role: 'Product Operations Returnship',
+                    type: 'Returnship',
+                    workplace: 'Remote',
+                    location: 'Remote, US',
+                    comp: '$48/hr ($100k annualized)',
+                    duration: '16-Week Returnship with Direct Conversion',
+                    gapFriendlyScore: 98,
+                    matchReason: 'Values your crisis management & budgeting during career pause.',
+                    tags: ['Caregiver Friendly', 'Mentored Ramp-up', 'Cohort Model'],
+                    applied: true
+                },
+                {
+                    id: 'job_2',
+                    company: 'Salesforce',
+                    logoBg: 'bg-sky-500',
+                    role: 'Associate Scrum Master (Career Re-Entry)',
+                    type: 'Returnship',
+                    workplace: 'Hybrid',
+                    location: 'Chicago, IL (Hybrid 2d/wk)',
+                    comp: '$44/hr + Benefits',
+                    duration: '20-Week Paid Returnship',
+                    gapFriendlyScore: 95,
+                    matchReason: 'Perfect fit for Agile Bridge certification completed last month.',
+                    tags: ['No Gap Questions', 'Flexible Hours', 'Dedicated Sponsor'],
+                    applied: false
+                },
+                {
+                    id: 'job_3',
+                    company: 'HealthStream Solutions',
+                    logoBg: 'bg-emerald-600',
+                    role: 'Client Success Operations Lead',
+                    type: 'Direct Hire',
+                    workplace: 'Remote',
+                    location: 'Remote (US/Canada)',
+                    comp: '$85,000 / yr',
+                    duration: 'Full-Time Direct Hire',
+                    gapFriendlyScore: 91,
+                    matchReason: 'Recognizes healthcare logistics advocacy from eldercare experience.',
+                    tags: ['Asynchronous', 'Health Insurance Day 1'],
+                    applied: true
+                },
+                {
+                    id: 'job_4',
+                    company: 'Accenture Pathways',
+                    logoBg: 'bg-purple-600',
+                    role: 'Data & Analytics Apprentice',
+                    type: 'Apprenticeship',
+                    workplace: 'Hybrid',
+                    location: 'New York / Atlanta',
+                    comp: '$38/hr + Tuition Reimbursement',
+                    duration: '12-Month Apprenticeship',
+                    gapFriendlyScore: 94,
+                    matchReason: 'Structured learning + client project exposure for career switchers.',
+                    tags: ['Full Sponsorship', 'Zero Experience Required'],
+                    applied: false
+                },
+                {
+                    id: 'job_5',
+                    company: 'Intuit',
+                    logoBg: 'bg-blue-600',
+                    role: 'Intuit Again: Technical Project Manager',
+                    type: 'Returnship',
+                    workplace: 'Remote',
+                    location: 'Remote, US',
+                    comp: '$52/hr',
+                    duration: '16-Week Program',
+                    gapFriendlyScore: 99,
+                    matchReason: 'Explicitly requires a 2+ year career pause for candidate eligibility.',
+                    tags: ['Intuit Again Program', 'Peer Cohort', 'High Conversion Rate'],
+                    applied: false
+                }
+            ],
+            applications: [
+                { id: 'app_1', company: 'Stripe', role: 'Product Operations Returnship', type: 'Returnship', stage: 'interviewing', date: 'Applied 10d ago', notes: 'Round 2 Manager Interview scheduled for Thursday 2pm!' },
+                { id: 'app_2', company: 'HealthStream', role: 'Client Success Operations Lead', type: 'Direct Hire', stage: 'applied', date: 'Applied 4d ago', notes: 'Application reviewed by recruiter; passed initial gap check.' },
+                { id: 'app_3', company: 'Salesforce', role: 'Associate Scrum Master', type: 'Returnship', stage: 'saved', date: 'Saved 2d ago', notes: 'Tailoring cover letter using Phoenix AI talking points.' },
+                { id: 'app_4', company: 'Mastercard Relaunch', role: 'Senior Analyst Returnship', type: 'Returnship', stage: 'saved', date: 'Saved 5d ago', notes: 'Waiting for spring cohort submissions to open.' },
+                { id: 'app_5', company: 'HubSpot', role: 'Operations Specialist (Return to Work)', type: 'Returnship', stage: 'offers', date: 'Offer Received Yesterday', notes: 'Offer letter received: $92k base + flexible schedule!' }
+            ],
+            courses: [
+                {
+                    id: 'crs_1',
+                    title: '2026 Modern Workplace AI & Workflow Automation',
+                    provider: 'SecondChance Academy & Google',
+                    hours: '12 Hours • Self-Paced',
+                    status: 'Completed',
+                    skills: ['Generative AI', 'Notion/Slack', 'Zapier Automation'],
+                    icon: 'fa-wand-magic-sparkles',
+                    badge: 'Certified'
+                },
+                {
+                    id: 'crs_2',
+                    title: 'Agile & Scrum Project Leadership Bridge',
+                    provider: 'ScrumAlliance Accredited',
+                    hours: '16 Hours • 2 Weeks',
+                    status: 'Completed',
+                    skills: ['Jira', 'Sprint Planning', 'Standup Facilitation'],
+                    icon: 'fa-diagram-project',
+                    badge: 'Certified'
+                },
+                {
+                    id: 'crs_3',
+                    title: 'Business Data Analysis with SQL & Modern Sheets',
+                    provider: 'SecondChance Data Guild',
+                    hours: '18 Hours • Self-Paced',
+                    status: 'In Progress (75%)',
+                    skills: ['SQL Queries', 'Pivot Tables', 'Dashboarding'],
+                    icon: 'fa-chart-pie',
+                    badge: 'In Progress'
+                },
+                {
+                    id: 'crs_4',
+                    title: 'Executive Communication & Boundary Setting for Returnees',
+                    provider: 'Path Forward Institute',
+                    hours: '6 Hours • Interactive Seminars',
+                    status: 'Enrolled',
+                    skills: ['Stakeholder Management', 'Negotiation', 'Work-Life Boundaries'],
+                    icon: 'fa-comments',
+                    badge: 'Next Up'
+                }
+            ],
+            mentors: [
+                {
+                    id: 'men_1',
+                    name: 'Claire Thornton',
+                    role: 'Director of Operations @ Adobe',
+                    gapStory: 'Returned after a 5-year break raising 3 children',
+                    specialty: 'Operations & People Leadership',
+                    reviews: 4.9,
+                    sessions: 38,
+                    img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=140&auto=format&fit=crop&q=80',
+                    nextSlot: 'Tomorrow at 4:30 PM'
+                },
+                {
+                    id: 'men_2',
+                    name: 'David K. O\'Connor',
+                    role: 'Staff TPM @ LinkedIn',
+                    gapStory: 'Transitioned back after 4 years of family eldercare',
+                    specialty: 'Technical Project Management & JIRA',
+                    reviews: 5.0,
+                    sessions: 46,
+                    img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=140&auto=format&fit=crop&q=80',
+                    nextSlot: 'Friday at 11:00 AM'
+                },
+                {
+                    id: 'men_3',
+                    name: 'Soraya Haddad',
+                    role: 'Head of Customer Experience @ Calm',
+                    gapStory: 'Re-entered tech after 3 years medical recovery',
+                    specialty: 'Resume Reframing & Confidence Coaching',
+                    reviews: 4.9,
+                    sessions: 52,
+                    img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=140&auto=format&fit=crop&q=80',
+                    nextSlot: 'Saturday at 2:00 PM'
+                }
+            ],
+            loanLedger: [
+                { id: 'tx_1', date: 'Sep 12, 2026', desc: 'PMP Certification Exam Voucher', amount: '-$250.00', status: 'Disbursed' },
+                { id: 'tx_2', date: 'Aug 28, 2026', desc: 'Laptop Memory Upgrade & Web Camera', amount: '-$200.00', status: 'Disbursed' }
+            ]
+        };
+
+        // Initialization on DOM Load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderJobsGrid();
+            renderKanbanBoard();
+            renderCoursesGrid();
+            renderMentorsGrid();
+            renderLoanLedger();
+            calculateStipend();
+        });
+
+        // Tab Switcher Controller
+        function switchTab(tabId) {
+            state.activeTab = tabId;
+            const tabs = ['jobs', 'tracker', 'courses', 'mentorship', 'loans'];
+            
+            tabs.forEach(t => {
+                const el = document.getElementById(`tabContent${capitalize(t)}`);
+                const btn = document.getElementById(`tabBtn${capitalize(t)}`);
+                if (t === tabId) {
+                    el.classList.remove('hidden');
+                    btn.className = "px-3.5 py-2 rounded-lg bg-renewal-600 text-slate-950 font-bold transition flex items-center gap-2 shadow";
+                } else {
+                    el.classList.add('hidden');
+                    btn.className = "px-3.5 py-2 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-2";
+                }
+            });
+        }
+
+        function capitalize(s) {
+            return s.charAt(0).toUpperCase() + s.slice(1);
+        }
+
+        // Render Job & Returnship Cards
+        function renderJobsGrid() {
+            const container = document.getElementById('jobsGridContainer');
+            container.innerHTML = '';
+
+            const search = (document.getElementById('jobSearchInput').value || '').toLowerCase();
+            const typeFilter = document.getElementById('filterTypeSelect').value;
+            const workplaceFilter = document.getElementById('filterWorkplaceSelect').value;
+
+            const filtered = state.jobs.filter(job => {
+                const matchesSearch = job.role.toLowerCase().includes(search) || job.company.toLowerCase().includes(search);
+                const matchesType = typeFilter === 'all' || job.type === typeFilter;
+                const matchesWorkplace = workplaceFilter === 'all' || job.workplace === workplaceFilter;
+                return matchesSearch && matchesType && matchesWorkplace;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full p-8 text-center glass-panel rounded-2xl text-slate-400 text-xs">
+                        <i class="fa-solid fa-briefcase text-2xl mb-2 text-slate-600"></i>
+                        <p>No roles match your current criteria. Try loosening the workplace or pathway filters.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(job => {
+                const card = document.createElement('div');
+                card.className = "glass-panel p-5 rounded-2xl flex flex-col justify-between space-y-3 hover:border-renewal-500/50 transition shadow-lg relative";
+                card.innerHTML = `
+                    <div class="space-y-2.5">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl ${job.logoBg} text-white font-black text-sm flex items-center justify-center shadow">
+                                    ${job.company.substring(0, 2).toUpperCase()}
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-100 text-sm leading-tight">${job.role}</h4>
+                                    <span class="text-xs text-slate-400">${job.company} • ${job.location}</span>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-renewal-950 text-renewal-400 border border-renewal-800 flex items-center gap-1 font-bold">
+                                <i class="fa-solid fa-shield-heart"></i> ${job.gapFriendlyScore}% Match
+                            </span>
+                        </div>
+
+                        <div class="p-2.5 rounded-xl bg-slateDark-950/80 border border-slate-800 text-[11px] text-slate-300 space-y-1">
+                            <div class="flex items-center justify-between text-slate-400 font-mono">
+                                <span>Compensation:</span>
+                                <span class="text-amberRise-300 font-bold">${job.comp}</span>
+                            </div>
+                            <div class="text-[10px] text-renewal-300 italic">
+                                <i class="fa-solid fa-check text-renewal-400 mr-1"></i>${job.matchReason}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-1.5 pt-1">
+                            ${job.tags.map(tag => `
+                                <span class="text-[10px] px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 border border-slate-700">
+                                    ${tag}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between gap-2 text-xs">
+                        <span class="text-[11px] font-mono text-slate-400">${job.duration}</span>
+                        <button onclick="applyToJob('${job.id}')" class="px-3.5 py-1.5 ${job.applied ? 'bg-slate-800 text-slate-400 cursor-default' : 'bg-renewal-600 hover:bg-renewal-500 text-slate-950 font-bold'} rounded-lg transition flex items-center gap-1.5">
+                            <i class="fa-solid ${job.applied ? 'fa-check' : 'fa-paper-plane'}"></i>
+                            <span>${job.applied ? 'Applied' : '1-Click Apply'}</span>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterJobsList() {
+            renderJobsGrid();
+        }
+
+        function applyToJob(jobId) {
+            const job = state.jobs.find(j => j.id === jobId);
+            if (!job || job.applied) return;
+
+            job.applied = true;
+            // Add to applications pipeline
+            state.applications.unshift({
+                id: 'app_' + Date.now(),
+                company: job.company,
+                role: job.role,
+                type: job.type,
+                stage: 'applied',
+                date: 'Applied Just Now',
+                notes: 'Applied via SecondChance Gap-Blind Portal.'
+            });
+
+            playChime('success');
+            renderJobsGrid();
+            renderKanbanBoard();
+            showSecondChanceToast(`Applied to ${job.company}: ${job.role}`, 'fa-paper-plane');
+        }
+
+        function triggerAiMatchRerank() {
+            const btn = document.getElementById('btnRerankMatches');
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i><span>Neural Re-ranking...</span>`;
+            
+            setTimeout(() => {
+                state.jobs.sort((a, b) => b.gapFriendlyScore - a.gapFriendlyScore);
+                renderJobsGrid();
+                btn.innerHTML = `<i class="fa-solid fa-bolt text-amberRise-400"></i><span>AI Re-Rank by My Skills</span>`;
+                playChime('success');
+                showSecondChanceToast("Matched roles re-ranked using your transferable caregiving skills", "fa-wand-magic-sparkles");
+            }, 600);
+        }
+
+        // Render Kanban Board for Application Tracking
+        function renderKanbanBoard() {
+            const columns = {
+                saved: document.getElementById('kanbanColSaved'),
+                applied: document.getElementById('kanbanColApplied'),
+                interviewing: document.getElementById('kanbanColInterviewing'),
+                offers: document.getElementById('kanbanColOffers')
+            };
+
+            const counts = { saved: 0, applied: 0, interviewing: 0, offers: 0 };
+            Object.values(columns).forEach(col => col.innerHTML = '');
+
+            state.applications.forEach(app => {
+                const stage = app.stage in columns ? app.stage : 'saved';
+                counts[stage]++;
+
+                const card = document.createElement('div');
+                card.className = "p-3 rounded-xl bg-slateDark-950 border border-slate-800 space-y-2 hover:border-slate-700 transition shadow";
+                card.innerHTML = `
+                    <div class="flex items-start justify-between">
+                        <span class="font-bold text-slate-200 text-xs">${app.company}</span>
+                        <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-400">${app.type}</span>
+                    </div>
+                    <p class="text-[11px] text-slate-300 font-semibold leading-snug">${app.role}</p>
+                    <div class="text-[10px] text-slate-400 bg-slateDark-900 p-2 rounded-lg border border-slate-850">
+                        <i class="fa-solid fa-note-sticky text-amberRise-400 mr-1"></i>${app.notes}
+                    </div>
+                    <div class="flex items-center justify-between pt-1 border-t border-slate-850 text-[10px]">
+                        <span class="text-slate-500 font-mono">${app.date}</span>
+                        <div class="flex gap-1">
+                            ${stage !== 'saved' ? `<button onclick="moveAppStage('${app.id}', 'prev')" class="p-1 text-slate-400 hover:text-white" title="Move Back"><i class="fa-solid fa-chevron-left text-[9px]"></i></button>` : ''}
+                            ${stage !== 'offers' ? `<button onclick="moveAppStage('${app.id}', 'next')" class="p-1 text-renewal-400 hover:text-renewal-300" title="Promote Stage"><i class="fa-solid fa-chevron-right text-[9px]"></i></button>` : ''}
+                        </div>
+                    </div>
+                `;
+                columns[stage].appendChild(card);
+            });
+
+            document.getElementById('colCountSaved').textContent = counts.saved;
+            document.getElementById('colCountApplied').textContent = counts.applied;
+            document.getElementById('colCountInterviewing').textContent = counts.interviewing;
+            document.getElementById('colCountOffers').textContent = counts.offers;
+            document.getElementById('statActiveApps').textContent = counts.applied + counts.interviewing;
+        }
+
+        function moveAppStage(appId, direction) {
+            const app = state.applications.find(a => a.id === appId);
+            if (!app) return;
+
+            const stages = ['saved', 'applied', 'interviewing', 'offers'];
+            let currentIdx = stages.indexOf(app.stage);
+            if (direction === 'next' && currentIdx < stages.length - 1) {
+                app.stage = stages[currentIdx + 1];
+                playChime('success');
+                showSecondChanceToast(`Advanced application to ${capitalize(app.stage)}`, 'fa-arrow-right');
+            } else if (direction === 'prev' && currentIdx > 0) {
+                app.stage = stages[currentIdx - 1];
+            }
+            renderKanbanBoard();
+        }
+
+        function openNewApplicationModal() {
+            document.getElementById('newAppCompany').value = '';
+            document.getElementById('newAppRole').value = '';
+            document.getElementById('newAppComp').value = '';
+            document.getElementById('newAppModal').classList.remove('hidden');
+        }
+
+        function closeNewApplicationModal() {
+            document.getElementById('newAppModal').classList.add('hidden');
+        }
+
+        function saveNewApplication() {
+            const company = document.getElementById('newAppCompany').value.trim();
+            const role = document.getElementById('newAppRole').value.trim();
+            if (!company || !role) {
+                showSecondChanceToast('Please enter both company and role title', 'fa-triangle-exclamation');
+                return;
+            }
+
+            const type = document.getElementById('newAppType').value;
+            const stage = document.getElementById('newAppStage').value;
+            const comp = document.getElementById('newAppComp').value.trim() || 'Undisclosed';
+
+            state.applications.unshift({
+                id: 'app_' + Date.now(),
+                company: company,
+                role: role,
+                type: type,
+                stage: stage,
+                date: 'Just logged',
+                notes: `Target comp: ${comp}. Logged manually.`
+            });
+
+            closeNewApplicationModal();
+            renderKanbanBoard();
+            playChime('success');
+            showSecondChanceToast(`Added ${role} at ${company} to Tracker`, 'fa-plus');
+        }
+
+        // Render Upskilling Courses
+        function renderCoursesGrid() {
+            const container = document.getElementById('coursesGridContainer');
+            container.innerHTML = '';
+
+            state.courses.forEach(course => {
+                const card = document.createElement('div');
+                card.className = "p-4 rounded-xl bg-slateDark-950 border border-slate-800 space-y-3 hover:border-cyan-500/40 transition";
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="w-9 h-9 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-sm">
+                            <i class="fa-solid ${course.icon}"></i>
+                        </div>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded-full ${course.status === 'Completed' ? 'bg-renewal-950 text-renewal-400 border border-renewal-800' : 'bg-cyan-950 text-cyan-300 border border-cyan-800'}">
+                            ${course.badge}
+                        </span>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-slate-100 text-xs sm:text-sm leading-snug">${course.title}</h4>
+                        <p class="text-[10px] text-slate-400 mt-0.5">${course.provider} • ${course.hours}</p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-1">
+                        ${course.skills.map(s => `<span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-300">${s}</span>`).join('')}
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-850 flex items-center justify-between">
+                        <span class="text-[10px] text-slate-400 font-mono">${course.status}</span>
+                        <button onclick="showSecondChanceToast('Course module opened in learning reader', 'fa-book-open')" class="px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold rounded-lg text-xs transition">
+                            ${course.status === 'Completed' ? 'Review / Cert' : 'Continue Module'}
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Render Mentors Directory
+        function renderMentorsGrid() {
+            const container = document.getElementById('mentorsGridContainer');
+            container.innerHTML = '';
+
+            state.mentors.forEach(m => {
+                const card = document.createElement('div');
+                card.className = "p-4 rounded-xl bg-slateDark-950 border border-slate-800 space-y-3 hover:border-amberRise-500/40 transition";
+                card.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <img src="${m.img}" alt="${m.name}" class="w-12 h-12 rounded-xl object-cover border border-slate-700 flex-shrink-0">
+                        <div class="flex-1 overflow-hidden">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-slate-100 text-xs truncate">${m.name}</h4>
+                                <span class="text-amberRise-400 text-xs font-bold font-mono"><i class="fa-solid fa-star text-[10px]"></i> ${m.reviews}</span>
+                            </div>
+                            <p class="text-[10px] text-slate-400 truncate">${m.role}</p>
+                        </div>
+                    </div>
+
+                    <div class="p-2 rounded-lg bg-slateDark-900 border border-slate-850 text-[10px] text-amberRise-300">
+                        <i class="fa-solid fa-quote-left mr-1"></i>${m.gapStory}
+                    </div>
+
+                    <div class="text-[11px] text-slate-300">
+                        <span class="text-slate-400">Specialty:</span> ${m.specialty}
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-850 flex items-center justify-between text-xs">
+                        <span class="text-[10px] text-slate-500 font-mono">${m.nextSlot}</span>
+                        <button onclick="bookMentorSession('${m.name}')" class="px-3 py-1 bg-amberRise-500 hover:bg-amberRise-600 text-slate-950 font-bold rounded-lg text-xs transition">
+                            Book Coffee Chat
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function bookMentorSession(name) {
+            playChime('success');
+            showSecondChanceToast(`30-Min Virtual Coffee Chat booked with ${name}`, 'fa-calendar-check');
+        }
+
+        function requestMentorMatch() {
+            playChime('success');
+            showSecondChanceToast("Matched with returnee mentor in your time zone!", 'fa-user-check');
+        }
+
+        // Render Loan Disbursal Ledger
+        function renderLoanLedger() {
+            const container = document.getElementById('loanLedgerContainer');
+            container.innerHTML = '';
+
+            state.loanLedger.forEach(item => {
+                const row = document.createElement('div');
+                row.className = "p-2.5 rounded-xl bg-slateDark-950 border border-slate-800 flex items-center justify-between text-xs";
+                row.innerHTML = `
+                    <div>
+                        <span class="font-semibold text-slate-200 block">${item.desc}</span>
+                        <span class="text-[10px] text-slate-500 font-mono">${item.date}</span>
+                    </div>
+                    <div class="text-right font-mono">
+                        <span class="text-emerald-400 font-bold">${item.amount}</span>
+                        <span class="block text-[9px] text-slate-400 uppercase">${item.status}</span>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        // Micro-Loan & Stipend Calculator Logic
+        function calculateStipend() {
+            const cert = parseFloat(document.getElementById('calcCert').value) || 0;
+            const care = parseFloat(document.getElementById('calcCare').value) || 0;
+            const transit = parseFloat(document.getElementById('calcTransit').value) || 0;
+
+            const total = cert + care + transit;
+            const grant = total * 0.5; // 50% non-repayable philanthropic grant
+            const netCredit = total - grant;
+
+            document.getElementById('calcTotalNeeded').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('calcGrantMatch').textContent = `-$${grant.toFixed(2)}`;
+            document.getElementById('calcNetCredit').textContent = `$${netCredit.toFixed(2)}`;
+        }
+
+        function applyCalculatedPackage() {
+            playChime('coins');
+            showSecondChanceToast("Zero-Risk Transition Stipend package approved and queued for ACH transfer", "fa-vault");
+        }
+
+        // Loan Draw Modal Handlers
+        function openMicroLoanModal() {
+            document.getElementById('loanDrawModal').classList.remove('hidden');
+        }
+
+        function closeMicroLoanModal() {
+            document.getElementById('loanDrawModal').classList.add('hidden');
+        }
+
+        function submitMicroLoanDraw() {
+            const amt = parseFloat(document.getElementById('loanDrawAmount').value) || 300;
+            const purpose = document.getElementById('loanDrawPurpose').value;
+
+            state.loanBalance -= amt;
+            document.getElementById('statMicroLoanBalance').textContent = `$${state.loanBalance.toLocaleString()}`;
+
+            state.loanLedger.unshift({
+                id: 'tx_' + Date.now(),
+                date: 'Just Now',
+                desc: purpose,
+                amount: `-$${amt.toFixed(2)}`,
+                status: 'Disbursed (Instant)'
+            });
+
+            renderLoanLedger();
+            closeMicroLoanModal();
+            playChime('coins');
+            showSecondChanceToast(`$${amt.toFixed(2)} disbursed to your account for ${purpose}`, 'fa-hand-holding-dollar');
+        }
+
+        // AI Career Gap Transmutation Engine (Powered by Gemini)
+        async function generateGapTransmutation() {
+            const reason = document.getElementById('gapReasonSelect').value;
+            const targetRole = document.getElementById('gapTargetRole').value;
+            const notes = document.getElementById('gapRealLifeNotes').value.trim() || 'Handled complex medical schedules, daily care routines, multi-party communications, and family financial prioritization.';
+
+            const btn = document.getElementById('btnGenerateGap');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin text-slate-950"></i><span>Synthesizing Executive Competencies with Gemini...</span>`;
+            btn.disabled = true;
+
+            const prompt = `You are an expert career transition coach and executive recruiter specializing in return-to-work and returnship programs.
+A candidate has a career break due to: "${reason}".
+Their target role is: "${targetRole}".
+During their break, they handled these real-life responsibilities:
+"${notes}"
+
+Transform this real-world experience into:
+1. Exactly 3 impactful, quantified executive resume bullets that translate these life responsibilities into high-value professional competencies (e.g. crisis management, agile resource allocation, budget stewardship, stakeholder alignment). Do not apologize for the break.
+2. A compelling, confident 2-sentence interview response explaining their career pause and eagerness to return.
+
+Format as a strict JSON object:
+{
+  "bullets": [
+    "string bullet 1",
+    "string bullet 2",
+    "string bullet 3"
+  ],
+  "interviewElevator": "string script"
+}
+Return JSON only.`;
+
+            try {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: { responseMimeType: "application/json" }
+                };
+
+                const res = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
+                const rawJson = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (rawJson) {
+                    const parsed = JSON.parse(rawJson);
+                    displayGapTransmutationResults(parsed);
+                    playChime('success');
+                    showSecondChanceToast("Career gap transformed into executive assets!", "fa-wand-magic-sparkles");
+                    return;
+                }
+                throw new Error("Invalid response format");
+            } catch (err) {
+                console.warn("Using offline heuristic gap transmutation:", err);
+                const heuristic = generateHeuristicTransmutation(reason, targetRole);
+                displayGapTransmutationResults(heuristic);
+                showSecondChanceToast("Synthesized with offline transition logic", "fa-check");
+            } finally {
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+            }
+        }
+
+        function generateHeuristicTransmutation(reason, targetRole) {
+            return {
+                bullets: [
+                    "Orchestrated cross-functional care logistics and healthcare stakeholder communication under high-stakes timelines, ensuring 100% medication and procedural compliance.",
+                    "Managed critical emergency triage, vendor negotiations, and annual operating budgets, applying agile problem-solving to mitigate risk and uncertainty.",
+                    "Sustained continuous professional development, completing certifications in Agile Project Management and AI workflow tools to integrate modern best practices into target operations."
+                ],
+                interviewElevator: "I intentionally paused my corporate career to steward intensive family caregiving operations—an experience that sharply honed my crisis leadership, resourcefulness, and empathy. Having successfully completed that chapter and updated my modern toolset, I am energized to bring this sharpened perspective to your team."
+            };
+        }
+
+        function displayGapTransmutationResults(data) {
+            const container = document.getElementById('gapAiOutputContainer');
+            const bulletsList = document.getElementById('gapResumeBulletsList');
+            const scriptEl = document.getElementById('gapInterviewScript');
+
+            bulletsList.innerHTML = '';
+            (data.bullets || []).forEach(b => {
+                const li = document.createElement('li');
+                li.className = "leading-relaxed";
+                li.textContent = b;
+                bulletsList.appendChild(li);
+            });
+
+            scriptEl.textContent = data.interviewElevator || '';
+            container.classList.remove('hidden');
+        }
+
+        function copyGapBullets() {
+            const list = document.getElementById('gapResumeBulletsList');
+            const text = Array.from(list.querySelectorAll('li')).map(li => "• " + li.textContent).join("\n");
+            
+            const dummy = document.createElement('textarea');
+            dummy.value = text;
+            document.body.appendChild(dummy);
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+
+            showSecondChanceToast("Resume bullets copied to clipboard!", "fa-copy");
+        }
+
+        function openGapReframerModal() {
+            document.getElementById('gapReframerModal').classList.remove('hidden');
+        }
+
+        function closeGapReframerModal() {
+            document.getElementById('gapReframerModal').classList.add('hidden');
+        }
+
+        // Custom Toast Notifications
+        let toastTimer = null;
+        function showSecondChanceToast(title, icon = 'fa-check') {
+            const toast = document.getElementById('secondChanceToast');
+            document.getElementById('toastTitleText').textContent = title;
+            document.getElementById('toastIconContainer').innerHTML = `<i class="fa-solid ${icon}"></i>`;
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(hideSecondChanceToast, 4000);
+        }
+
+        function hideSecondChanceToast() {
+            const toast = document.getElementById('secondChanceToast');
+            toast.classList.remove('translate-y-0', 'opacity-100');
+            toast.classList.add('translate-y-20', 'opacity-0');
+        }
+    </script>
+</body>
+</html>
